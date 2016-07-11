@@ -79,9 +79,9 @@
             this.Controls.Add(this.cssTB);
             this.Controls.Add(this.htmlTB);
             this.Controls.Add(this.webBrowser1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "CSS/HTML editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 

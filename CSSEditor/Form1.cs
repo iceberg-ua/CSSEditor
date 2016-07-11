@@ -16,8 +16,18 @@ namespace CSSEditor
         IHTMLDocument2 _doc;
         IHTMLStyleSheet _style;
 
-        string _defaultHTML = "<body><h1>Title</h1></body>";
-        string _defaultCSS = "h1 { background-color: yellow; }";
+        string _defaultHTML = @"<body><h1>Title</h1><hr>
+<ul>
+<li>qwe</li>
+<li>asd </li>
+<li>zxc</li>
+</ul>
+<ol>
+<li>123</li>
+<li>456</li>
+<li>789</li>
+</ol>
+</body>";
 
         HTMLCanvas _htmlCanvas = new HTMLCanvas();
 
@@ -32,11 +42,11 @@ namespace CSSEditor
             Controls.Add(_htmlCanvas);
 
             htmlTB.Text = _defaultHTML;
-            cssTB.Text = _defaultCSS;
-
             htmlTB.KeyDown += HtmlTBKeyDown;
-            webBrowser1.DocumentText = _defaultHTML;
 
+            cssTB.Text = DefaultCSS.DefaultCSSString;
+
+            webBrowser1.DocumentText = _defaultHTML;
             if (webBrowser1.Document != null)
                 _doc = webBrowser1.Document.DomDocument as IHTMLDocument2;
         }
@@ -50,6 +60,8 @@ namespace CSSEditor
                 _style = _doc.createStyleSheet("", 0);
                 _style.cssText = cssTB.Text;
             }
+
+            _htmlCanvas.HtmlText = htmlTB.Text;
         }
 
         private void HtmlTBKeyDown(object sender, KeyEventArgs e)
@@ -65,13 +77,19 @@ namespace CSSEditor
 
             try
             {
-                webBrowser1.DocumentText = htmlTB.Text;
+                _htmlCanvas.HtmlText = htmlTB.Text;
 
                 if (cssTB.Text != string.Empty)
                 {
                     _style.cssText = cssTB.Text;
-                    _doc.clear();
+                    _doc.body.style.fontFamily = Font.Name;
+                    _doc.body.style.fontSize = Font.Height;
                 }
+
+                _doc.body.innerHTML = htmlTB.Text;
+                _htmlCanvas.CSSData = cssTB.Text;
+
+                _htmlCanvas.Refresh();
             }
             catch
             {
